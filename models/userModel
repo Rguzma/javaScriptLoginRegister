@@ -1,0 +1,50 @@
+const mongoose = require( 'mongoose' );
+
+const UserSchema = new mongoose.Schema({
+    firstName : {
+        type : String,
+        required : true,
+        minlength : 3,
+        maxlength : 20
+    },
+    lastName : {
+        type : String,
+        required : true,
+        minlength : 3,
+        maxlength : 20
+    },
+    email : {
+        type : String,
+        required : true,
+        unique : true,
+        match: /.+\@.+\..+/,
+    },
+    password : {
+        type : String,
+        required : true,
+        minlength: 8,
+    },
+    birthday : {
+        type : Date,
+        required : true,
+    },
+
+
+});
+
+const User = mongoose.model( 'users', UserSchema );
+
+const UserModel = {
+    createUser : function( newUser ){
+        return User.create( newUser );
+    },
+    getUsers : function(){
+        return User.find();
+    },
+    findOne: function(email){
+        return User.findOne({email:email});
+    },
+
+};
+
+module.exports = {UserModel};
